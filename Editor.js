@@ -6,22 +6,33 @@ export default class Editor extends Component {
 
     this.state = {
       dropdown : {
-        left: 'initial',
-        top: 'initial',
+        left: 0,
+        top: 0,
         //right: 'auto',
       }
     }
     //this.onClick = this.onClick.bind(this);
   }
 
+
+    createShadowElementAndGetBoundingClientRect(elementNodeName, elementClassNames, parentElement) {
+      let element = document.createElement(elementNodeName);
+      element.setAttribute('class', elementClassNames);
+      element.style.opacity = 0;
+      document.querySelector(parentElement).appendChild(element)
+      const elementRect = element.getBoundingClientRect();
+      element.remove();
+      return elementRect;
+    }
+
   onClick(
     element, 
     elementOffsetParent = document.querySelector('.editor-ctnr'), 
     dropdown = document.querySelector('.dropdown'),
-    dropdownOffsetParent
+    dropdownOffsetParent =  document.querySelector('main')
     ) {
-    let elementOffsetLeft = 'initial',
-        elementOffsetTop = 'initial',
+    let elementOffsetLeft = 0,
+        elementOffsetTop = 0,
         //right = 'initial';
     
     const element = element;
@@ -29,10 +40,15 @@ export default class Editor extends Component {
     const elementOffsetParent = elementOffsetParent;
     const elementOffsetParentRect = elementOffsetParent.getBoundingClientRect();
     const dropdown = dropdown;
-    const dropdownRect = dropdown.getBoundingClientRect();
+    const dropdownRect = dropdown ? dropdown.getBoundingClientRect() : this.createShadowElementAndGetBoundingClientRect('div', 'dropdown', 'main');
     const dropdownOffsetParent = dropdownOffsetParent ? dropdownOffsetParent : elementOffsetParent;
-    const dropdownOffsetParentRect = dropdown.getBoundingClientRect();
-    const dropdownWidth = 150;
+    const dropdownOffsetParentRect = dropdownOffsetParent.getBoundingClientRect();
+    const dropdownWidth = dropdownRect.width;
+    this.createShadowElementAndGetBoundingClientRect('div', 'dropdown', '.editor-ctnr');
+
+console.log(elementOffsetParent === dropdownOffsetParent)
+console.log(dropdownRect);
+//return;
 
     //console.log(elementRect);
     //console.log(element.offsetLeft)
@@ -41,17 +57,31 @@ export default class Editor extends Component {
     elementOffsetTop = element.offsetTop + elementRect.height;
     console.log(elementOffsetLeft)
 
+
+
+    if (!(elementOffsetParent === dropdownOffsetParent)) {
+      let parentsTopDiffrence = elementOffsetParentRect.top - dropdownOffsetParentRect.top;
+      let parentsLeftDiffrence = elementOffsetParentRect.left - dropdownOffsetParentRect.left;
+
+      elementOffsetLeft = elementOffsetLeft + parentsLeftDiffrence;
+      elementOffsetTop = elementOffsetTop + parentsTopDiffrence;
+      
+    }
+
     const canDropdownAlignedCenter = elementOffsetLeft > dropdownWidth / 2;
     const canDropdownAlignedRight = elementOffsetLeft + elementRect.width + dropdownRect.width / 2  > elementOffsetParentRect.width;
 
     console.log('canAlignedCenter = ', canDropdownAlignedCenter, ' canAlignedRight = ', canDropdownAlignedRight);
 
+    if (!dropdown) {
+      console.log('.dropdown element not found... returning!')
+      return;
+    }
 
     dropdown.classList.remove('dropdown-center'); 
     dropdown.classList.remove('dropdown-right'); 
 
 
-    console.log('if two')
     console.log(elementRect);
     console.log(elementOffsetParentRect)
 
@@ -62,6 +92,7 @@ export default class Editor extends Component {
     }
 
     if (canDropdownAlignedRight) {
+      console.log('if two')
       dropdown.classList.add('dropdown-right');
       elementOffsetLeft = elementOffsetLeft + elementRect.width - dropdownRect.width;
     }
@@ -79,16 +110,22 @@ export default class Editor extends Component {
   }
 
   render() {
-    console.log('render triggers...');
+    console.log('render triggers....');
 
     return (
+      <main>
+      <h1>main header</h1>
     <div className="editor-ctnr">
       <section className="editor">
         This <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake1</span> fact that lists render their markers outside their own box (by default) is slightly weird. Any hidden overflow <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake2</span> or overhanging off the edge of the browser will hide them. Moving them inside the box <span className="bad-word" onClick={ () => this.onClick(event.target) }>feels</span> better and safer, but doing it that the easy way means losing the really <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake3</span> nice alignment we got for free with outside list markers. We want it both ways! Let’s do that with our own custom counters, CSS grid (<span className="bad-word" onClick={ () => this.onClick(event.target) }>with</span> subgrid), and  <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake4</span> some more...
       </section>
 
       
-      <aside className="dropdown" 
+      
+    </div>
+    <h1>main footer</h1>
+
+    <aside className="dropdown" 
         style={{
           left: this.state.dropdown.left,
           right: this.state.dropdown.right,
@@ -103,7 +140,7 @@ export default class Editor extends Component {
           <option>History</option>
         </select>
       </aside>
-    </div>
+    </main>
   );
   }
 }

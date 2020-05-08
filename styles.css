@@ -8,7 +8,12 @@ body {
   background: #fed;
   padding: 25px;
 }
-
+main {
+  position: relative;
+  padding: 50px;
+  background: pink;
+  border: 1px solid;
+}
 .editor-ctnr {
   padding: 50px;
   border: 1px solid red;

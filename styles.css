@@ -1,3 +1,31 @@
-h1, p {
-  font-family: Lato;
+html {
+  font: 12px/1.5rem Arial;
+}
+body {
+  background: #fed;
+  padding: 25px;
+}
+
+.editor-ctnr {
+  padding: 50px;
+  border: 1px solid red;
+  background: tan;
+  position: relative;
+}
+
+.bad-word {
+  background: yellow;
+  border: 1px solid;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.dropdown {
+  position: absolute;
+  width: 150px;
+  border: 1px solid red;
+}
+
+.dropdown select {
+  width: 100%;
 }

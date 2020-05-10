@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
 import Editor from './Editor';
+import EditorFixed from './EditorFixed';
 import './styles.css';
 
 class App extends Component {
@@ -16,7 +17,7 @@ class App extends Component {
     return (
       <div>
         <Hello name={this.state.name} />
-        <Editor />
+        <EditorFixed />
       </div>
     );
   }

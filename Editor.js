@@ -25,11 +25,7 @@ export default class Editor extends Component {
       return elementRect;
     }
 
-  onClick(
-    element, 
-    elementOffsetParent = document.querySelector('.editor-ctnr'), 
-    dropdown = document.querySelector('.dropdown'),
-    dropdownOffsetParent =  document.querySelector('main')
+  onClick(element, dropdown = document.querySelector('.dropdown')
     ) {
     let elementOffsetLeft = 0,
         elementOffsetTop = 0,
@@ -37,16 +33,16 @@ export default class Editor extends Component {
     
     const element = element;
     const elementRect = element.getBoundingClientRect();
-    const elementOffsetParent = elementOffsetParent;
+    const elementOffsetParent = elementOffsetParent ? elementOffsetParent : element.offsetParent;
     const elementOffsetParentRect = elementOffsetParent.getBoundingClientRect();
     const dropdown = dropdown;
     const dropdownRect = dropdown ? dropdown.getBoundingClientRect() : this.createShadowElementAndGetBoundingClientRect('div', 'dropdown', 'main');
-    const dropdownOffsetParent = dropdownOffsetParent ? dropdownOffsetParent : elementOffsetParent;
+    const dropdownOffsetParent = dropdownOffsetParent ? dropdownOffsetParent : dropdown.offsetParent;
     const dropdownOffsetParentRect = dropdownOffsetParent.getBoundingClientRect();
     const dropdownWidth = dropdownRect.width;
     this.createShadowElementAndGetBoundingClientRect('div', 'dropdown', '.editor-ctnr');
 
-console.log(elementOffsetParent === dropdownOffsetParent)
+console.log('element and dropdopwn parents are same... ', elementOffsetParent === dropdownOffsetParent)
 console.log(dropdownRect);
 //return;
 

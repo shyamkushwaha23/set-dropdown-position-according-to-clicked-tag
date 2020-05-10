@@ -7,18 +7,21 @@ html {
 body {
   background: #fed;
   padding: 25px;
+  height: 1500px;
 }
 main {
   position: relative;
-  padding: 50px;
+  padding: 20px;
   background: pink;
   border: 1px solid;
 }
 .editor-ctnr {
-  padding: 50px;
+  padding: 20px;
   border: 1px solid red;
   background: tan;
   position: relative;
+  height: 300px;
+  overflow: auto;
 }
 
 .bad-word {
@@ -29,7 +32,7 @@ main {
 }
 
 .dropdown {
-  position: absolute;
+  position: fixed;
   width: 150px;
   border: 1px solid red;
 }

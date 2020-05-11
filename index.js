@@ -17,7 +17,7 @@ class App extends Component {
     return (
       <div>
         <Hello name={this.state.name} />
-        <EditorFixed />
+        <Editor />
       </div>
     );
   }

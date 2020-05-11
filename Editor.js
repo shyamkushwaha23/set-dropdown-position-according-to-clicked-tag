@@ -61,8 +61,8 @@ export default class EditorFixed extends Component {
 
     if (!(srcElementOffsetParent === targetElementOffsetParent)) {
       console.log('not sampe')
-      let parentsTopDiffrence = srcElementOffsetParentRect.top - targetElementOffsetParentRect.top;
       let parentsLeftDiffrence = srcElementOffsetParentRect.left - targetElementOffsetParentRect.left;
+      let parentsTopDiffrence = srcElementOffsetParentRect.top - targetElementOffsetParentRect.top;
 
       targetLeftPosition = targetLeftPosition + parentsLeftDiffrence;
       targetTopPosition = targetTopPosition + parentsTopDiffrence;
@@ -78,12 +78,12 @@ export default class EditorFixed extends Component {
 
     if ( !canTargetElementAlignedRight && canTargetElementAlignedCenter ) {
       targetElement.classList.add('dropdown-center');
-      targetLeftPosition = srcElement.offsetLeft > targetElementRect.width / 2;
+      targetLeftPosition = targetLeftPosition + (srcElementRect.width / 2) - (targetElementRect.width / 2)
     }
 
     if (canTargetElementAlignedRight) {
       targetElement.classList.add('dropdown-right');
-      targetLeftPosition = srcElement.offsetLeft + srcElementRect.width + targetElementRect.width / 2  > srcElementOffsetParentRect.width;
+      targetLeftPosition = targetLeftPosition + srcElementRect.width - targetElementRect.width;
     }
 
 
@@ -123,6 +123,11 @@ export default class EditorFixed extends Component {
 
         <p>My tutorials help 60,000+ developers learn React and JavaScript every month. If you'd like to receive a friendly email once in a while of all new React tutorials, just pop your email above! I appreciate the support!</p>
       </section>
+      
+    </div>
+    <h1>main footer</h1>
+
+    
 
       <aside className="dropdown" 
         style={{
@@ -138,11 +143,6 @@ export default class EditorFixed extends Component {
           <option>History</option>
         </select>
       </aside>
-      
-    </div>
-    <h1>main footer</h1>
-
-    
     </main>
   );
   }

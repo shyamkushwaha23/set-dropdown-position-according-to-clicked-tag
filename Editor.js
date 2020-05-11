@@ -53,14 +53,10 @@ export default class EditorFixed extends Component {
     let targetElementOffsetParentRect = targetElementOffsetParent.getBoundingClientRect();
 
 
-
     let targetLeftPosition = srcElement.offsetLeft;
-    console.log('srcelement.offsetleft = ', targetLeftPosition)
-    let targetTopPosition = srcElement.offsetTop + srcElementRect.height;
-
+    let targetTopPosition = srcElement.offsetTop + srcElementRect.height - srcElementOffsetParent.scrollTop;
 
     if (!(srcElementOffsetParent === targetElementOffsetParent)) {
-      console.log('not sampe')
       let parentsLeftDiffrence = srcElementOffsetParentRect.left - targetElementOffsetParentRect.left;
       let parentsTopDiffrence = srcElementOffsetParentRect.top - targetElementOffsetParentRect.top;
 
@@ -85,7 +81,6 @@ export default class EditorFixed extends Component {
       targetElement.classList.add('dropdown-right');
       targetLeftPosition = targetLeftPosition + srcElementRect.width - targetElementRect.width;
     }
-
 
 
     this.setState({

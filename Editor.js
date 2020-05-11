@@ -35,21 +35,20 @@ export default class EditorFixed extends Component {
       this.getFixedPosition(element, document.querySelector('.dropdown'));
     }
 
-  getFixedPosition(srcElement, targetElement) {
+  getFixedPosition(srcElement, targetElement, srcElementOffsetParent, targetElementOffsetParent) {
     let targetLeftPosition = 0, targetTopPosition = 0;
 
-    if ((srcElement.nodeType !== 1) || (targetElement.nodeType !== 1)) {
+    if (!srcElement || srcElement.nodeType !== 1 || !targetElement || targetElement.nodeType !== 1) {
       console.log('srcElement or targterElement not found!');
       return;
     }
 
-    let srcElement = srcElement;
-console.log(srcElement)
+    let srcElement = (typeof srcElement === 'string') ? document.querySelector(srcElement) : srcElement;
     let srcElementRect = srcElement.getBoundingClientRect();
     let srcElementOffsetParent = srcElementOffsetParent ? srcElementOffsetParent : srcElement.offsetParent;
     let srcElementOffsetParentRect = srcElementOffsetParent.getBoundingClientRect();
 
-    let targetElement = targetElement;
+    let targetElement = (typeof targetElement === 'string') ? document.querySelector(targetElement) : targetElement;
     let targetElementRect = targetElement.getBoundingClientRect();
     let targetElementOffsetParent = targetElementOffsetParent ? targetElementOffsetParent : targetElement.offsetParent;
     let targetElementOffsetParentRect = targetElementOffsetParent.getBoundingClientRect();

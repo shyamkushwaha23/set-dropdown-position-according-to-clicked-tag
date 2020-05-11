@@ -32,7 +32,7 @@ main {
 }
 
 .dropdown {
-  position: fixed;
+  position: absolute;
   width: 150px;
   border: 1px solid red;
   background: silver;

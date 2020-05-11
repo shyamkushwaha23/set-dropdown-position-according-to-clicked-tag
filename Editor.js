@@ -10,7 +10,6 @@ export default class EditorFixed extends Component {
         top: 0
       }
     }
-    //this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +38,7 @@ export default class EditorFixed extends Component {
     let targetLeftPosition = 0, targetTopPosition = 0;
 
     if (!srcElement || srcElement.nodeType !== 1 || !targetElement || targetElement.nodeType !== 1) {
-      console.log('srcElement or targterElement not found!');
+      console.log('srcElement or targteElement not found!');
       return;
     }
 
@@ -52,17 +51,16 @@ export default class EditorFixed extends Component {
     let targetElementRect = targetElement.getBoundingClientRect();
     let targetElementOffsetParent = targetElementOffsetParent ? targetElementOffsetParent : targetElement.offsetParent;
     let targetElementOffsetParentRect = targetElementOffsetParent.getBoundingClientRect();
-    console.log(targetElementRect)
 
 
 
     let targetLeftPosition = srcElement.offsetLeft;
+    console.log('srcelement.offsetleft = ', targetLeftPosition)
     let targetTopPosition = srcElement.offsetTop + srcElementRect.height;
-    console.log('w', targetLeftPosition)
 
 
     if (!(srcElementOffsetParent === targetElementOffsetParent)) {
-      console.log('offset parents are different');
+      console.log('not sampe')
       let parentsTopDiffrence = srcElementOffsetParentRect.top - targetElementOffsetParentRect.top;
       let parentsLeftDiffrence = srcElementOffsetParentRect.left - targetElementOffsetParentRect.left;
 
@@ -74,23 +72,16 @@ export default class EditorFixed extends Component {
     let canTargetElementAlignedCenter = srcElement.offsetLeft > targetElementRect.width / 2;
     let canTargetElementAlignedRight = srcElement.offsetLeft + srcElementRect.width + targetElementRect.width / 2  > srcElementOffsetParentRect.width;
 
-    console.log('canAlignedCenter = ', canTargetElementAlignedCenter, ' canAlignedRight = ', canTargetElementAlignedRight);
 
     targetElement.classList.remove('dropdown-center'); 
     targetElement.classList.remove('dropdown-right'); 
 
-
-    console.log('srcElement.offsetLeft = ', srcElement.offsetLeft);
-    console.log(srcElementOffsetParentRect)
-
     if ( !canTargetElementAlignedRight && canTargetElementAlignedCenter ) {
-      console.log('if one')
       targetElement.classList.add('dropdown-center');
       targetLeftPosition = srcElement.offsetLeft > targetElementRect.width / 2;
     }
 
     if (canTargetElementAlignedRight) {
-      console.log('if two')
       targetElement.classList.add('dropdown-right');
       targetLeftPosition = srcElement.offsetLeft + srcElementRect.width + targetElementRect.width / 2  > srcElementOffsetParentRect.width;
     }
@@ -101,7 +92,6 @@ export default class EditorFixed extends Component {
       dropdown: {
         left: targetLeftPosition,
         top: targetTopPosition,
-        //right: right
       }
     })
 

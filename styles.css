@@ -35,8 +35,16 @@ main {
   position: fixed;
   width: 150px;
   border: 1px solid red;
+  background: silver;
 }
 
 .dropdown select {
   width: 100%;
+}
+
+.dropdown.dropdown-center:before {
+  content: 'CENTER'
+}
+.dropdown.dropdown-right:after {
+  content: 'RIGHT'
 }

@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 
-export default class Editor extends Component {
+export default class EditorFixed extends Component {
   constructor() {
     super();
-
+    //alert(1)
     this.state = {
       dropdown : {
         left: 0,
-        top: 0,
-        //right: 'auto',
+        top: 0
       }
     }
     //this.onClick = this.onClick.bind(this);
+  }
+
+  componentDidMount() {
+
+      // window.addEventListener('scroll', () => {
+      //   this.getFixedPosition(document.querySelector('.bad-word-active'), document.querySelector('.dropdown')); 
+      // })
   }
 
 
@@ -20,85 +26,82 @@ export default class Editor extends Component {
       element.setAttribute('class', elementClassNames);
       element.style.opacity = 0;
       document.querySelector(parentElement).appendChild(element)
-      const elementRect = element.getBoundingClientRect();
+      let elementRect = element.getBoundingClientRect();
       element.remove();
       return elementRect;
     }
 
-  onClick(element, dropdown = document.querySelector('.dropdown')
-    ) {
-    let elementOffsetLeft = 0,
-        elementOffsetTop = 0,
-        //right = 'initial';
-    
-    const element = element;
-    const elementRect = element.getBoundingClientRect();
-    const elementOffsetParent = elementOffsetParent ? elementOffsetParent : element.offsetParent;
-    const elementOffsetParentRect = elementOffsetParent.getBoundingClientRect();
-    const dropdown = dropdown;
-    const dropdownRect = dropdown ? dropdown.getBoundingClientRect() : this.createShadowElementAndGetBoundingClientRect('div', 'dropdown', 'main');
-    const dropdownOffsetParent = dropdownOffsetParent ? dropdownOffsetParent : dropdown.offsetParent;
-    const dropdownOffsetParentRect = dropdownOffsetParent.getBoundingClientRect();
-    const dropdownWidth = dropdownRect.width;
-    this.createShadowElementAndGetBoundingClientRect('div', 'dropdown', '.editor-ctnr');
-
-console.log('element and dropdopwn parents are same... ', elementOffsetParent === dropdownOffsetParent)
-console.log(dropdownRect);
-//return;
-
-    //console.log(elementRect);
-    //console.log(element.offsetLeft)
-
-    elementOffsetLeft = element.offsetLeft;
-    elementOffsetTop = element.offsetTop + elementRect.height;
-    console.log(elementOffsetLeft)
-
-
-
-    if (!(elementOffsetParent === dropdownOffsetParent)) {
-      let parentsTopDiffrence = elementOffsetParentRect.top - dropdownOffsetParentRect.top;
-      let parentsLeftDiffrence = elementOffsetParentRect.left - dropdownOffsetParentRect.left;
-
-      elementOffsetLeft = elementOffsetLeft + parentsLeftDiffrence;
-      elementOffsetTop = elementOffsetTop + parentsTopDiffrence;
-      
+    onClick(element) {
+      this.getFixedPosition(element, document.querySelector('.dropdown'));
     }
 
-    const canDropdownAlignedCenter = elementOffsetLeft > dropdownWidth / 2;
-    const canDropdownAlignedRight = elementOffsetLeft + elementRect.width + dropdownRect.width / 2  > elementOffsetParentRect.width;
+  getFixedPosition(srcElement, targetElement) {
+    let targetLeftPosition = 0, targetTopPosition = 0;
 
-    console.log('canAlignedCenter = ', canDropdownAlignedCenter, ' canAlignedRight = ', canDropdownAlignedRight);
-
-    if (!dropdown) {
-      console.log('.dropdown element not found... returning!')
+    if ((srcElement.nodeType !== 1) || (targetElement.nodeType !== 1)) {
+      console.log('srcElement or targterElement not found!');
       return;
     }
 
-    dropdown.classList.remove('dropdown-center'); 
-    dropdown.classList.remove('dropdown-right'); 
+    let srcElement = srcElement;
+console.log(srcElement)
+    let srcElementRect = srcElement.getBoundingClientRect();
+    let srcElementOffsetParent = srcElementOffsetParent ? srcElementOffsetParent : srcElement.offsetParent;
+    let srcElementOffsetParentRect = srcElementOffsetParent.getBoundingClientRect();
+
+    let targetElement = targetElement;
+    let targetElementRect = targetElement.getBoundingClientRect();
+    let targetElementOffsetParent = targetElementOffsetParent ? targetElementOffsetParent : targetElement.offsetParent;
+    let targetElementOffsetParentRect = targetElementOffsetParent.getBoundingClientRect();
+    console.log(targetElementRect)
 
 
-    console.log(elementRect);
-    console.log(elementOffsetParentRect)
 
-    if ( !canDropdownAlignedRight && canDropdownAlignedCenter ) {
-      console.log('if one')
-      dropdown.classList.add('dropdown-center');
-      elementOffsetLeft = elementOffsetLeft + (elementRect.width / 2) - (dropdownRect.width / 2)
+    let targetLeftPosition = srcElement.offsetLeft;
+    let targetTopPosition = srcElement.offsetTop + srcElementRect.height;
+    console.log('w', targetLeftPosition)
+
+
+    if (!(srcElementOffsetParent === targetElementOffsetParent)) {
+      console.log('offset parents are different');
+      let parentsTopDiffrence = srcElementOffsetParentRect.top - targetElementOffsetParentRect.top;
+      let parentsLeftDiffrence = srcElementOffsetParentRect.left - targetElementOffsetParentRect.left;
+
+      targetLeftPosition = targetLeftPosition + parentsLeftDiffrence;
+      targetTopPosition = targetTopPosition + parentsTopDiffrence;
     }
 
-    if (canDropdownAlignedRight) {
+
+    let canTargetElementAlignedCenter = srcElement.offsetLeft > targetElementRect.width / 2;
+    let canTargetElementAlignedRight = srcElement.offsetLeft + srcElementRect.width + targetElementRect.width / 2  > srcElementOffsetParentRect.width;
+
+    console.log('canAlignedCenter = ', canTargetElementAlignedCenter, ' canAlignedRight = ', canTargetElementAlignedRight);
+
+    targetElement.classList.remove('dropdown-center'); 
+    targetElement.classList.remove('dropdown-right'); 
+
+
+    console.log('srcElement.offsetLeft = ', srcElement.offsetLeft);
+    console.log(srcElementOffsetParentRect)
+
+    if ( !canTargetElementAlignedRight && canTargetElementAlignedCenter ) {
+      console.log('if one')
+      targetElement.classList.add('dropdown-center');
+      targetLeftPosition = srcElement.offsetLeft > targetElementRect.width / 2;
+    }
+
+    if (canTargetElementAlignedRight) {
       console.log('if two')
-      dropdown.classList.add('dropdown-right');
-      elementOffsetLeft = elementOffsetLeft + elementRect.width - dropdownRect.width;
+      targetElement.classList.add('dropdown-right');
+      targetLeftPosition = srcElement.offsetLeft + srcElementRect.width + targetElementRect.width / 2  > srcElementOffsetParentRect.width;
     }
 
 
 
     this.setState({
       dropdown: {
-        left: elementOffsetLeft,
-        top: elementOffsetTop,
+        left: targetLeftPosition,
+        top: targetTopPosition,
         //right: right
       }
     })
@@ -106,25 +109,35 @@ console.log(dropdownRect);
   }
 
   render() {
-    console.log('render triggers....');
+    console.log('render triggers...');
 
     return (
       <main>
       <h1>main header</h1>
     <div className="editor-ctnr">
       <section className="editor">
-        This <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake1</span> fact that lists render their markers outside their own box (by default) is slightly weird. Any hidden overflow <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake2</span> or overhanging off the edge of the browser will hide them. Moving them inside the box <span className="bad-word" onClick={ () => this.onClick(event.target) }>feels</span> better and safer, but doing it that the easy way means losing the really <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake3</span> nice alignment we got for free with outside list markers. We want it both ways! Let’s do that with our own custom counters, CSS grid (<span className="bad-word" onClick={ () => this.onClick(event.target) }>with</span> subgrid), and  <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake4</span> some more...
+        This <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake1</span> fact that lists render their markers outside their own box (by default) is slightly weird. Any hidden overflow <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake2</span> or overhanging off the edge of the browser will hide them. Moving them inside the box <span className="bad-word" onClick={ () => this.onClick(event.target) }>feels</span> better and safer, but doing it that the easy way means losing the really <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake3</span> nice alignment we got for free with outside list markers. We want it both ways! Let’s do that with our own custom counters, CSS grid (<span className="bad-word bad-word-active" onClick={ () => this.onClick(event.target) }>with</span> subgrid), and  <span className="bad-word" onClick={ () => this.onClick(event.target) }>Mistake4</span> some more...
+
+        <br />
+
+        <p>My tutorials help 60,000+ developers learn React and JavaScript every month. If you'd like to receive a friendly email once in a while of all new React tutorials, just pop your email above! I appreciate the support!</p>
+
+        <br />
+
+        <p>My tutorials help 60,000+ developers learn React and JavaScript every month. If you'd like to receive a friendly email once in a while of all new React tutorials, just pop your email above! I appreciate the support!</p>
+
+        <br />
+
+        <p>My tutorials help 60,000+ developers learn React and JavaScript every month. If you'd like to receive a friendly email once in a while of all new React tutorials, just pop your email above! I appreciate the support!</p>
+
+        <br />
+
+        <p>My tutorials help 60,000+ developers learn React and JavaScript every month. If you'd like to receive a friendly email once in a while of all new React tutorials, just pop your email above! I appreciate the support!</p>
       </section>
 
-      
-      
-    </div>
-    <h1>main footer</h1>
-
-    <aside className="dropdown" 
+      <aside className="dropdown" 
         style={{
           left: this.state.dropdown.left,
-          right: this.state.dropdown.right,
           top: this.state.dropdown.top
         }}
       >
@@ -136,6 +149,11 @@ console.log(dropdownRect);
           <option>History</option>
         </select>
       </aside>
+      
+    </div>
+    <h1>main footer</h1>
+
+    
     </main>
   );
   }
